@@ -1,0 +1,62 @@
+name: Publish to Gateway
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify-gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Notify Gateway (Windows)
+        env:
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
+          VERSION: ${{ github.ref_name }} # e.g., "v1.0.1"
+          REPO: ${{ github.repository }}
+        run: |
+          # Strip 'v' prefix if necessary: 1.0.1
+          CLEAN_VERSION="${VERSION#v}"
+          
+          # Construct the GitHub Release download URL (Standard GitHub format)
+          # Assuming you upload a file named 'onerouter-windows.exe' to the release
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-windows.exe"
+          
+          echo "Notifying Gateway for Windows version $CLEAN_VERSION..."
+          
+          curl -X POST "$GATEWAY_URL/v1/client/publish" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $GATEWAY_KEY" \
+            -d "{
+              \"version\": \"$CLEAN_VERSION\",
+              \"platform\": \"windows\",
+              \"download_url\": \"$DOWNLOAD_URL\",
+              \"release_notes\": \"See GitHub Release for details\",
+              \"force_update\": false
+            }"
+
+      - name: Notify Gateway (MacOS)
+        env:
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
+          VERSION: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          CLEAN_VERSION="${VERSION#v}"
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-macos.dmg"
+          
+          echo "Notifying Gateway for MacOS version $CLEAN_VERSION..."
+          
+          curl -X POST "$GATEWAY_URL/v1/client/publish" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $GATEWAY_KEY" \
+            -d "{
+              \"version\": \"$CLEAN_VERSION\",
+              \"platform\": \"macos\",
+              \"download_url\": \"$DOWNLOAD_URL\",
+              \"release_notes\": \"See GitHub Release for details\",
+              \"force_update\": false
+            }"
