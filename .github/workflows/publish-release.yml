@@ -60,3 +60,26 @@ jobs:
               \"release_notes\": \"See GitHub Release for details\",
               \"force_update\": false
             }"
+
+      - name: Notify Gateway (Linux)
+        env:
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
+          VERSION: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          CLEAN_VERSION="${VERSION#v}"
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-linux"
+          
+          echo "Notifying Gateway for Linux version $CLEAN_VERSION..."
+          
+          curl -X POST "$GATEWAY_URL/v1/client/publish" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $GATEWAY_KEY" \
+            -d "{
+              \"version\": \"$CLEAN_VERSION\",
+              \"platform\": \"linux\",
+              \"download_url\": \"$DOWNLOAD_URL\",
+              \"release_notes\": \"See GitHub Release for details\",
+              \"force_update\": false
+            }"
