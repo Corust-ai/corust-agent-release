@@ -23,7 +23,7 @@ jobs:
           
           # Construct the GitHub Release download URL (Standard GitHub format)
           # Assuming you upload a file named 'onerouter-windows.exe' to the release
-          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-windows.exe"
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-windows-$VERSION.exe"
           
           echo "Notifying Gateway for Windows version $CLEAN_VERSION..."
           
@@ -46,7 +46,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           CLEAN_VERSION="${VERSION#v}"
-          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-macos.dmg"
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-macos-$VERSION.dmg"
           
           echo "Notifying Gateway for MacOS version $CLEAN_VERSION..."
           
@@ -69,7 +69,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           CLEAN_VERSION="${VERSION#v}"
-          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-linux"
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-linux-$VERSION"
           
           echo "Notifying Gateway for Linux version $CLEAN_VERSION..."
           
