@@ -1,0 +1,27 @@
+id = "corust-agent"
+name = "Corust Agent"
+version = "0.0.1"
+schema_version = 1
+authors = ["Shiotoli <shiotoli@gmail.com>", "Phoenix <phoenix400426@gmail.com>", "Eguo Wang <wangeguo@gmail.com>", "Alex <b.method.xili.hou@gmail.com>","Elowen <elowen.luo@gmail.com>"]
+description = "A Rust-based agentic workflow system organized as a Cargo workspace."
+repository = "https://github.com/Corust-ai/corust-agent-release"
+
+[agent_servers.corust-agent]
+name = "Corust Agent"
+# icon = "./icon/corust-agent.svg"
+
+[agent_servers.corust-agent.targets.darwin-aarch64]
+archive = "https://github.com/Corust-ai/corust-agent-release/releases/download/v0.0.1-test_1/agent-darwin-arm64.tar.gz"
+cmd = "./corust-agent-acp"
+
+# [agent_servers.corust-agent.targets.darwin-x86_64]
+# archive = "https://github.com/Corust-ai/corust-agent-release/releases/tag/v0.0.1-test_1/corust-agent-acp-darwin-x64.tar.gz"
+# cmd = "./corust-agent-acp"
+
+[agent_servers.corust-agent.targets.linux-x86_64]
+archive = "https://github.com/Corust-ai/corust-agent-release/releases/download/v0.0.1-test_1/agent-linux-x64.tar.gz"
+cmd = "./corust-agent-acp"
+
+[agent_servers.corust-agent.targets.windows-x86_64]
+archive = "https://github.com/Corust-ai/corust-agent-release/releases/download/v0.0.1-test_1/agent-windows-x64.zip"
+cmd = "./corust-agent-acp.exe"
