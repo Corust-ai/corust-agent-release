@@ -8,7 +8,7 @@ repository = "https://github.com/Corust-ai/corust-agent-release"
 
 [agent_servers.corust-agent]
 name = "Corust Agent"
-# icon = "./icon/corust-agent.svg"
+icon = "./icon/corust-agent.svg"
 
 [agent_servers.corust-agent.targets.darwin-aarch64]
 archive = "https://github.com/Corust-ai/corust-agent-release/releases/download/v0.0.1-release/agent-darwin-arm64.tar.gz"
