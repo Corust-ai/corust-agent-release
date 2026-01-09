@@ -1,6 +1,6 @@
 id = "corust-agent"
 name = "Corust Agent"
-version = "0.0.2-release"
+version = "0.0.2"
 schema_version = 1
 authors = ["Corust AI <support@corust.ai>"]
 description = "Co-building with a seasoned Rust partner."
