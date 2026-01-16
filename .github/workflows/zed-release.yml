@@ -1,0 +1,17 @@
+name: Release to Zed Extensions
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: huacnlee/zed-extension-action@v2
+        with:
+          extension-name: corust-agent
+          push-to: Corust-ai/zed-extensions
+        env:
+          COMMITTER_TOKEN: ${{ secrets.ZED_EXTENSION_REPO_TOKEN }}
