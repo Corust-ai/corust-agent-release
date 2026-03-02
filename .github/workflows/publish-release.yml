@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Notify Gateway (Windows)
+      - name: Notify Gateway (windows-x86_64)
         env:
           GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
           GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
@@ -25,20 +25,20 @@ jobs:
           # Assuming you upload a file named 'onerouter-windows.exe' to the release
           DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-windows-$VERSION.exe"
           
-          echo "Notifying Gateway for Windows version $CLEAN_VERSION..."
-          
+          echo "Notifying Gateway for windows-x86_64 version $CLEAN_VERSION..."
+
           curl -X POST "$GATEWAY_URL/v1/client/publish" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $GATEWAY_KEY" \
             -d "{
               \"version\": \"$CLEAN_VERSION\",
-              \"platform\": \"windows\",
+              \"platform\": \"windows-x86_64\",
               \"download_url\": \"$DOWNLOAD_URL\",
               \"release_notes\": \"See GitHub Release for details\",
               \"force_update\": false
             }"
 
-      - name: Notify Gateway (MacOS)
+      - name: Notify Gateway (darwin-aarch64)
         env:
           GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
           GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
@@ -48,20 +48,43 @@ jobs:
           CLEAN_VERSION="${VERSION#v}"
           DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-macos-$VERSION.dmg"
           
-          echo "Notifying Gateway for MacOS version $CLEAN_VERSION..."
+          echo "Notifying Gateway for darwin-aarch64 version $CLEAN_VERSION..."
+
+          curl -X POST "$GATEWAY_URL/v1/client/publish" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $GATEWAY_KEY" \
+            -d "{
+              \"version\": \"$CLEAN_VERSION\",
+              \"platform\": \"darwin-aarch64\",
+              \"download_url\": \"$DOWNLOAD_URL\",
+              \"release_notes\": \"See GitHub Release for details\",
+              \"force_update\": false
+            }"
+
+      - name: Notify Gateway (darwin-x86_64)
+        env:
+          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
+          VERSION: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          CLEAN_VERSION="${VERSION#v}"
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/agent-darwin-x64.tar.gz"
+          
+          echo "Notifying Gateway for darwin-x86_64 version $CLEAN_VERSION..."
           
           curl -X POST "$GATEWAY_URL/v1/client/publish" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $GATEWAY_KEY" \
             -d "{
               \"version\": \"$CLEAN_VERSION\",
-              \"platform\": \"macos\",
+              \"platform\": \"darwin-x86_64\",
               \"download_url\": \"$DOWNLOAD_URL\",
               \"release_notes\": \"See GitHub Release for details\",
               \"force_update\": false
             }"
 
-      - name: Notify Gateway (Linux)
+      - name: Notify Gateway (linux-x86_64)
         env:
           GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
           GATEWAY_KEY: ${{ secrets.GATEWAY_ADMIN_KEY }}
@@ -71,14 +94,14 @@ jobs:
           CLEAN_VERSION="${VERSION#v}"
           DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/onerouter-linux-$VERSION"
           
-          echo "Notifying Gateway for Linux version $CLEAN_VERSION..."
-          
+          echo "Notifying Gateway for linux-x86_64 version $CLEAN_VERSION..."
+
           curl -X POST "$GATEWAY_URL/v1/client/publish" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $GATEWAY_KEY" \
             -d "{
               \"version\": \"$CLEAN_VERSION\",
-              \"platform\": \"linux\",
+              \"platform\": \"linux-x86_64\",
               \"download_url\": \"$DOWNLOAD_URL\",
               \"release_notes\": \"See GitHub Release for details\",
               \"force_update\": false
